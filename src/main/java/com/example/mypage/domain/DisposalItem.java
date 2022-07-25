@@ -7,11 +7,11 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 @Getter @Setter
-public class OrderItem {
+public class DisposalItem {
 
-    private Long orderId;
-    private Long orderItemId;
-    private String orderItemName;
-    private Long reviewId;
-
+    Long disposalItemId;
+    String disposalItemName;
+    Long Qty;
+    Long Weight;
+    Long Point;
 }
