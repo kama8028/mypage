@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -16,8 +18,8 @@ public class MyOrder {
     private Long memberId;
     private LocalDateTime orderDate;
 
-    @Embedded
-    private OrderItem orderItem;
+    @OneToMany(mappedBy = "myOrder", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItem = new ArrayList<>();
     private String address;
 
     @Enumerated(EnumType.STRING)

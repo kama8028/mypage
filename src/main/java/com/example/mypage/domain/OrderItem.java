@@ -3,15 +3,19 @@ package com.example.mypage.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
-@Embeddable
+@Entity
 @Getter @Setter
 public class OrderItem {
 
-    private Long orderId;
+    @Id
     private Long orderItemId;
     private String orderItemName;
     private Long reviewId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="order_id")
+    private MyOrder myOrder;
 
 }

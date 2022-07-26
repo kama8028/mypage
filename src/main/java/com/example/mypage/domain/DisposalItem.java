@@ -3,15 +3,21 @@ package com.example.mypage.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
-@Embeddable
+@Entity
 @Getter @Setter
 public class DisposalItem {
 
+    @Id
     Long disposalItemId;
     String disposalItemName;
     Long Qty;
     Long Weight;
     Long Point;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="disposal_id")
+    private MyDisposal myDisposal;
+
 }

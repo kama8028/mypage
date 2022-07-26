@@ -3,11 +3,10 @@ package com.example.mypage.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -16,12 +15,12 @@ public class MyDisposal {
 
     @Id
     private Long disposalId;
+
+    @OneToMany(mappedBy = "myDisposal", cascade = CascadeType.ALL)
+    private List<DisposalItem> disposalItem = new ArrayList<>();
+
     private Long memberId;
     private LocalDateTime disposalDate;
-
-    @Embedded
-    private DisposalItem disposalItem;
     private String BranchName;
-
 
 }
