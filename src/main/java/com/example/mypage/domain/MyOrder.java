@@ -21,8 +21,4 @@ public class MyOrder {
     @OneToMany(mappedBy = "myOrder", cascade = CascadeType.ALL)
     private List<OrderItem> orderItem = new ArrayList<>();
     private String address;
-
-    @Enumerated(EnumType.STRING)
-    private DeliveryStatus deliveryStatus;
-
 }
