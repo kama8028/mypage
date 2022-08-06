@@ -14,6 +14,7 @@ public class MyAddress {
     @Id
     Long addressId;
     Long memberId;
+    String addressType;
     String basAddr;
     String dtlAddr;
 

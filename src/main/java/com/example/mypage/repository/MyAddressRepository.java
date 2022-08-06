@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -14,7 +15,7 @@ public class MyAddressRepository {
 
     private final EntityManager em;
 
-    public MyAddress findOne(Long id) {
-        return em.find(MyAddress.class, id);
+    public List<MyAddress> findAll(Long memberId) {
+        return em.createQuery("select m from MyAddress m where m.memberId = :memberId", MyAddress.class).setParameter("memberId", memberId).getResultList();
     }
 }
