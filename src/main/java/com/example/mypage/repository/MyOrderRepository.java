@@ -16,7 +16,9 @@ public class MyOrderRepository {
     private final EntityManager em;
 
     public List<MyOrder> findAll(Long memberId) {
-        return em.createQuery("select m from MyOrder m where m.memberId = :memberId", MyOrder.class).setParameter("memberId", memberId).getResultList();
+        return em.createQuery("select m from MyOrder m" +
+                                 " join fetch m.orderItem o" +
+                                 " where m.memberId = :memberId", MyOrder.class).setParameter("memberId", memberId).getResultList();
     }
 
 }
