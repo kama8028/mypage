@@ -27,6 +27,9 @@ public class MyPageController {
     private final MyEcoPointService myEcoPointService;
     private MyPageAll myPageAll;
 
+    private final MyOrderItemService myOrderItemService;
+
+    //마이 페이지 진입시 모든 데이터 조회하는 함수
     @GetMapping("/mypages/{id}")
     public MyPageAll findInfo(@PathVariable("id") Long id) {
         System.out.println("MyInfo 인입");
@@ -44,6 +47,18 @@ public class MyPageController {
         myPageAll = new MyPageAll(myInfo, myEcoPoint, myAddressList, myOrderList, myDisposalList);
 
         return myPageAll;
+    }
+
+    //리뷰 등록시 상품 조회 하는 함수
+    @GetMapping("/mypages/orderItem/{orderItemId}")
+    public OrderItemDto findOrderItem(@PathVariable("orderItemId") Long orderItemId) {
+        System.out.println("리뷰 등록을 위한 상품 조회 함수 진입");
+        System.out.println(orderItemId);
+
+        OrderItem orderItem = myOrderItemService.findOne(orderItemId);
+        OrderItemDto orderItemDto = new OrderItemDto(orderItem);
+
+        return orderItemDto;
     }
 
     @Getter
@@ -79,7 +94,6 @@ public class MyPageController {
         private List<OrderItemDto> orderItems;
 
         public MyOrderDto(MyOrder myorder) {
-
             orderId = myorder.getOrderId();
             orderDate = myorder.getOrderDate();
             address = myorder.getAddress();
@@ -91,18 +105,21 @@ public class MyPageController {
     public class OrderItemDto {
 
         private Long orderItemId;
-        private String orderItemName;
+        private Long itemId;
+        private String itemName;
+
         private String price;
         private Long qty;
-        private DeliveryStatus deliveryStatus;  //READY, SHIPPING, CANCEL, COMP
+        private String deliveryStatus;  //READY, SHIPPING, CANCEL, COMP
         private Long reviewId;
 
         public OrderItemDto(OrderItem orderItem) {
             orderItemId = orderItem.getOrderItemId();
-            orderItemName = orderItem.getOrderItemName();
+            itemId = orderItem.getItemId();
+            itemName = orderItem.getItemName();
             price = orderItem.getPrice();
             qty = orderItem.getQty();
-            deliveryStatus = orderItem.getDeliveryStatus();
+            deliveryStatus = orderItem.getDeliveryStatus().getValue();
             reviewId = orderItem.getReviewId();
         }
 
@@ -110,6 +127,7 @@ public class MyPageController {
 
     @Getter
     public class MyDisposalDto {
+
         private Long disposalId;
         private LocalDateTime disposalDate;
         private String branchName;
@@ -128,14 +146,16 @@ public class MyPageController {
     private class DisposalItemDto {
 
         private Long disposalItemId;
-        private String disposalItemName;
+        private Long recycleItemId;
+        private String recycleItemName;
         private Long qty;
         private Long weight;
         private Long point;
 
         public DisposalItemDto(DisposalItem disposalItem) {
             disposalItemId = disposalItem.getDisposalItemId();
-            disposalItemName = disposalItem.getDisposalItemName();
+            recycleItemId = disposalItem.getRecycleItemId();
+            recycleItemName = disposalItem.getRecycleItemName();
             qty = disposalItem.getQty();
             weight= disposalItem.getWeight();
             point = disposalItem.getPoint();

@@ -14,6 +14,7 @@ import java.util.List;
 public class MyDisposal {
 
     @Id
+    @GeneratedValue
     private Long disposalId;
 
     @OneToMany(mappedBy = "myDisposal", cascade = CascadeType.ALL)

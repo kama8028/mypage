@@ -14,6 +14,7 @@ import java.util.List;
 public class MyOrder {
 
     @Id
+    @GeneratedValue
     private Long orderId;
     private Long memberId;
     private LocalDateTime orderDate;

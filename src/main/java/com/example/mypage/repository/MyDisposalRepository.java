@@ -17,7 +17,7 @@ public class MyDisposalRepository{
     private final EntityManager em;
 
     public List<MyDisposal> findAll(Long memberId) {
-        return em.createQuery("select m from MyDisposal m" +
+        return em.createQuery("select distinct m from MyDisposal m" +
                                  " join fetch m.disposalItem d" +
                                  " where m.memberId = :memberId", MyDisposal.class).setParameter("memberId", memberId).getResultList();
     }

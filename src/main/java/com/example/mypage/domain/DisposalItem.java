@@ -11,7 +11,8 @@ public class DisposalItem {
 
     @Id
     Long disposalItemId;
-    String disposalItemName;
+    Long recycleItemId;
+    String recycleItemName;
     Long Qty;
     Long Weight;
     Long Point;

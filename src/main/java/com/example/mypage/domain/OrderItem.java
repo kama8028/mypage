@@ -11,12 +11,14 @@ public class OrderItem {
 
     @Id
     private Long orderItemId;
-    private String orderItemName;
+    private Long itemId;
+    private String itemName;
     private String Price;
     private Long Qty;
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus deliveryStatus;  //READY, SHIPPING, CANCEL, COMP
+
 
     private Long reviewId;
 
