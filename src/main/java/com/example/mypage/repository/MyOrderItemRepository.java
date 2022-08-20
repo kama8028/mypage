@@ -18,5 +18,8 @@ public class MyOrderItemRepository {
         return em.createQuery("select distinct o from OrderItem o" +
                 " where o.orderItemId = :orderItemId", OrderItem.class).setParameter("orderItemId", orderItemId).getSingleResult();
     }
+    public void reviewSave(OrderItem orderItem) {
+        em.persist(orderItem);
+    }
 
 }

@@ -22,4 +22,12 @@ public class MyOrderItemService {
         return myOrderItemRepository.findOne(orderItemId);
     }
 
+    public Long reviewSave(OrderItem orderItem) {
+
+        myOrderItemRepository.reviewSave(orderItem);
+
+        return orderItem.getOrderItemId();
+    }
+
+
 }
