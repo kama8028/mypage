@@ -33,5 +33,5 @@ phases:
       - echo Build completed on $DATE
       - sed -i.bak 's#AWS_ECR_URI#'"$AWS_ECR_URI"'#' ./kubernetes/deployment.yml
       - sed -i.bak 's#DATE_STRING#'"$DATE"'#' ./kubernetes/deployment.yml
-      - kubectl apply -f ./deployment.yml
-      - kubectl apply -f ./service.yml
+      - kubectl apply -f ./kubernetes/deployment.yml
+      - kubectl apply -f ./kubernetes/service.yml
