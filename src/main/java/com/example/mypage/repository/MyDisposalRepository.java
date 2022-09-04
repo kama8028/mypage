@@ -22,4 +22,8 @@ public class MyDisposalRepository{
                                  " where m.memberId = :memberId", MyDisposal.class).setParameter("memberId", memberId).getResultList();
     }
 
+    public void save(MyDisposal myDisposal) {
+        em.persist(myDisposal);
+    }
+
 }

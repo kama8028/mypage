@@ -17,4 +17,6 @@ public class MyInfoRepository {
         return em.find(MyInfo.class, id);
     }
 
+
+
 }

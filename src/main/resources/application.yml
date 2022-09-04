@@ -1,24 +1,48 @@
+
+---
+
 spring:
+  profiles: default  #로컬에서는 삭제
   datasource:
     #url: jdbc:h2://localhost:8082/review;
-    url: jdbc:h2:tcp://localhost/~/review;
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    #url: jdbc:h2:tcp://localhost/~/review;
+    #username: sa
+    #password:
+    #driver-class-name: org.h2.Driver
+    url: jdbc:mysql://ecomarket-mypage-db.cgcyiu667p2z.ap-northeast-2.rds.amazonaws.com:3306/ecomarket_mypage_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: kama8028
+    password: godqhr0850!
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
+      #naming:
+        #physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       ddl-auto: none  #새로 생성 : create, 새로 생성되지 않음 : none
     properties:
       hibernate:
         show_sql: true
         format_sql: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect #로컬 삭제
 
+server:
+  port: 8080
+
+---
+
+spring:
+  profiles: default
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
   cloud:
     stream:
       kafka:
         binder:
           brokers: localhost:9099
+          #brokers: localhost:29092
         streams:
           binder:
             configuration:
@@ -36,6 +60,60 @@ spring:
           destination: ecomarket
           contentType: application/json
 
-#logging:
-#  level:
-#    org.hibernate.SQL: debug #로거를 이용해서 sql이 출력됨
+logging:
+  level:
+    org.hibernate.SQL: debug #로거를 이용해서 sql이 출력됨
+
+server:
+  port: 8080
+
+---
+
+spring:
+  profiles: docker
+  datasource:
+    #url: jdbc:h2://localhost:8082/review;
+    #url: jdbc:h2:tcp://localhost/~/review;
+    #username: sa
+    #password:
+    #driver-class-name: org.h2.Driver
+    url: jdbc:mysql://ecomarket-mypage-db.cgcyiu667p2z.ap-northeast-2.rds.amazonaws.com:3306/ecomarket_mypage_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: kama8028
+    password: godqhr0850!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      #naming:
+      #physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: none  #새로 생성 : create, 새로 생성되지 않음 : none
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect #로컬 삭제
+
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: my-kafka:9092
+        streams:
+          binder:
+            configuration:
+              default:
+                key:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+      bindings:
+        event-in:
+          group: review
+          destination: ecomarket
+          contentType: application/json
+        event-out:
+          destination: ecomarket
+          contentType: application/json
+
+server:
+  port: 8080

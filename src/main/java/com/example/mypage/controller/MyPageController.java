@@ -92,12 +92,14 @@ public class MyPageController {
         private LocalDateTime orderDate;
         private String address;
         private List<OrderItemDto> orderItems;
+        private String deliveryStatus;  //READY, SHIPPING, CANCEL, COMP
 
         public MyOrderDto(MyOrder myorder) {
             orderId = myorder.getOrderId();
             orderDate = myorder.getOrderDate();
             address = myorder.getAddress();
             orderItems = myorder.getOrderItem().stream().map(m -> new OrderItemDto(m)).collect(Collectors.toList());
+            deliveryStatus = myorder.getDeliveryStatus().getValue();
         }
     }
 
@@ -107,10 +109,9 @@ public class MyPageController {
         private Long orderItemId;
         private Long itemId;
         private String itemName;
-
         private String price;
         private Long qty;
-        private String deliveryStatus;  //READY, SHIPPING, CANCEL, COMP
+
         private Long reviewId;
 
         public OrderItemDto(OrderItem orderItem) {
@@ -119,7 +120,6 @@ public class MyPageController {
             itemName = orderItem.getItemName();
             price = orderItem.getPrice();
             qty = orderItem.getQty();
-            deliveryStatus = orderItem.getDeliveryStatus().getValue();
             reviewId = orderItem.getReviewId();
         }
 

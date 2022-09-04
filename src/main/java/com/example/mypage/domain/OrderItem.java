@@ -16,10 +16,6 @@ public class OrderItem {
     private String Price;
     private Long Qty;
 
-    @Enumerated(EnumType.STRING)
-    private DeliveryStatus deliveryStatus;  //READY, SHIPPING, CANCEL, COMP
-
-
     private Long reviewId;
 
     @ManyToOne(fetch = FetchType.LAZY)
