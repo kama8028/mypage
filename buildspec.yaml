@@ -35,3 +35,7 @@ phases:
       - sed -i.bak 's#DATE_STRING#'"$DATE"'#' ./kubernetes/deployment.yml
       - kubectl apply -f ./kubernetes/deployment.yml
       - kubectl apply -f ./kubernetes/service.yml
+
+cache:
+  paths:
+    - '/root/.m2/**/*'
