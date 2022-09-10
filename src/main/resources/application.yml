@@ -9,8 +9,8 @@ spring:
     #password:
     #driver-class-name: org.h2.Driver
     url: jdbc:mysql://ecomarket-mypage-db.cgcyiu667p2z.ap-northeast-2.rds.amazonaws.com:3306/ecomarket_mypage_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: kama8028
-    password: godqhr0850!
+    username: 
+    password: 
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -78,8 +78,8 @@ spring:
     #password:
     #driver-class-name: org.h2.Driver
     url: jdbc:mysql://ecomarket-mypage-db.cgcyiu667p2z.ap-northeast-2.rds.amazonaws.com:3306/ecomarket_mypage_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: kama8028
-    password: godqhr0850!
+    username:
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
