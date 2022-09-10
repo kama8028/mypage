@@ -1,5 +1,3 @@
-
-
 ---
 
 spring:
@@ -19,7 +17,7 @@ spring:
     hibernate:
       #naming:
         #physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: none  #새로 생성 : create, 새로 생성되지 않음 : none
+      ddl-auto: update  #새로 생성 : create, 새로 생성되지 않음 : none
     properties:
       hibernate:
         show_sql: true
@@ -42,9 +40,9 @@ spring:
     stream:
       kafka:
         binder:
-          #brokers: localhost:9099
+          brokers: localhost:9099
           #brokers: localhost:29092
-          brokers: my-kafka.kafka.svc.cluster.local:9092
+          #brokers: my-kafka.kafka.svc.cluster.local:9092
         streams:
           binder:
             configuration:
@@ -88,7 +86,7 @@ spring:
     hibernate:
       #naming:
       #physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: none  #새로 생성 : create, 새로 생성되지 않음 : none
+      ddl-auto: update  #새로 생성 : create, 새로 생성되지 않음 : none
     properties:
       hibernate:
         show_sql: true

@@ -7,8 +7,8 @@ o 카프카 실행
  - cd C:\DEV\kafka_2.13-3.2.0
  - 주키퍼 실행 : bin\windows\zookeeper-server-start.bat config\zookeeper.properties
  - 카프카 실행 : bin\windows\kafka-server-start.bat config\server.properties
- - 프로듀서 : .\bin\windows\kafka-console-producer.bat --bootstrap-server localhost:9092 --topic ecomarket
- - 컨슈머 : .\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic ecomarket --from-beginning
+ - 프로듀서 : .\bin\windows\kafka-console-producer.bat --bootstrap-server localhost:9099 --topic ecomarket
+ - 컨슈머 : .\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9099 --topic ecomarket --from-beginning
   - 서비확인(주키퍼) : netstat -an -o | findstr 2181
   - 서버확인(카프카) : netstat -an -o | findstr 9092
   - 서버확인(8080) : netstat -an -o | findstr 8080
@@ -78,6 +78,9 @@ INSERT INTO disposal_item VALUES('5','2000','10','0','2','유리병','3');
 
 COMMIT;
 
+o 카프카 오더 테스트 자료
+{"eventType":"PaymentCompleted","timestamp":1656637224646,"id":5,"addressId":1,"memberId":1,"ecoOrderId":7,"ecoOrderDate":"2022-06-17T00:00:00","totalPrice":10000, "paymentMethod":"Cash", "orderItem":[{"ecoProductId":1, "ecoProductName":"BACHU1", "ecoProductUnitPrice":500, "ecoProductQty":3}, {"ecoProductId":2, "ecoProductName":"BACHU2", "ecoProductUnitPrice":1000, "ecoProductQty":1}]}
+{"eventType":"DeliveryCompleted","timestamp":3656637224646,"deliveryId":5,"memberId":1,"deliveryStatus":"COMP","deliveryStartDt":"2022-06-17","deliveryEndDt":"2022-06-17","orderId":1}
 
 /****************** 테스트 관련 명령어 **********************/
 ** 등록

@@ -9,17 +9,29 @@ import javax.persistence.*;
 @Getter @Setter
 public class OrderItem {
 
-    @Id
+    @Id @GeneratedValue
     private Long orderItemId;
     private Long itemId;
     private String itemName;
-    private String Price;
+    private Long Price;
     private Long Qty;
-
     private Long reviewId;
+
+    private Long ecoProductId;
+    private String ecoProductName;
+    private Long ecoProductUnitPrice;
+    private Long ecoProductQty;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="order_id")
     private MyOrder myOrder;
+
+    public OrderItem(){
+
+    }
+
+/*    public static OrderItem createOrderItem(EcoOrderItem ecoOrderItem) {
+        OrderItem orderItem = new OrderItem();
+    }*/
 
 }

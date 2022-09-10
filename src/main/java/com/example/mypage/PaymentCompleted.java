@@ -1,5 +1,6 @@
 package com.example.mypage;
 
+import com.example.mypage.domain.EcoOrderItem;
 import com.example.mypage.domain.OrderItem;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,9 +12,9 @@ import java.util.List;
 @Getter @Setter
 public class PaymentCompleted extends AbstractEvent {
 
-    private Long orderId;
+    private Long ecoOrderId;
     private Long memberId;
-    private LocalDateTime orderDate;
-    private List<OrderItem> orderItem = new ArrayList<>();
+    private LocalDateTime ecoOrderDate;
+    private List<OrderItem> OrderItem = new ArrayList<>();
 
 }

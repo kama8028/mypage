@@ -23,7 +23,8 @@ public class MyOrderRepository {
     public List<MyOrder> findAll(Long memberId) {
         return em.createQuery("select distinct m from MyOrder m" +
                                  " join fetch m.orderItem o" +
-                                 " where m.memberId = :memberId", MyOrder.class).setParameter("memberId", memberId).getResultList();
+                                 " where m.memberId = :memberId" +
+                                 " order by m.orderDate desc", MyOrder.class).setParameter("memberId", memberId).getResultList();
     }
 
     public void save(MyOrder myOrder) {

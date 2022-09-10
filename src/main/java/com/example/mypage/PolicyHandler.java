@@ -1,6 +1,7 @@
 package com.example.mypage;
 
 import com.example.mypage.config.kafka.KafkaProcessor;
+import com.example.mypage.domain.DeliveryStatus;
 import com.example.mypage.domain.MyOrder;
 import com.example.mypage.domain.OrderItem;
 import com.example.mypage.service.MyDisposalService;
@@ -11,6 +12,11 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,13 +37,54 @@ public class PolicyHandler {
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverPaymentCompleted(@Payload PaymentCompleted paymentCompleted) {
 
-        System.out.println(paymentCompleted);
+        System.out.println("로그"+paymentCompleted);
         System.out.println("paymentCompleted 진입");
+        System.out.println("에코오더id:"+paymentCompleted.getEcoOrderId());
+        System.out.println("에코오더아이템:"+paymentCompleted.getOrderItem());
+
+        //OrderItem orderItem = paymentCompleted.getOrderItem();
+
+        List<OrderItem> orderItems = new ArrayList<>();
+        //EcoOrderItem ecoOrderItems;
+
+        //for(EcoOrderItem ecoOrderItem : ecoOrderItems ) {
+        //  orderItems.
+        //}
+
+//        List<OrderItem> orderItems = paymentCompleted.getOrderItem().stream()
+//                .map(o -> new OrderItem(o))
+//                .collect(Collectors.toList());
+        MyOrder myOrder = new MyOrder();
+        myOrder.setOrderId(paymentCompleted.getEcoOrderId());
+        myOrder.setMemberId(paymentCompleted.getMemberId());
+        //myOrder.setOrderDate(LocalDateTime.now());
+        myOrder.setOrderDate(paymentCompleted.getEcoOrderDate());
+        myOrder.setAddress("없음");
+        myOrder.setDeliveryStatus(DeliveryStatus.READY);
+
+
+        for(OrderItem orderItem : paymentCompleted.getOrderItem()) {
+            System.out.println("for문 진입");
+            System.out.println(orderItem.getEcoProductId());
+            System.out.println(orderItem.getEcoProductName());
+            System.out.println(orderItem.getEcoProductUnitPrice());
+            System.out.println(orderItem.getEcoProductQty());
+            orderItem.setItemId(orderItem.getEcoProductId());
+            orderItem.setItemName(orderItem.getEcoProductName());
+            orderItem.setPrice(orderItem.getEcoProductUnitPrice());
+            orderItem.setQty(orderItem.getEcoProductQty());
+            orderItem.setReviewId(0L);
+            //orderItem.setMyOrder(myOrder);
+            //orderItems.add(orderItem);
+            myOrder.addOrderItem(orderItem);
+
+        }
+
+        System.out.println(orderItems);
 
         if (!paymentCompleted.validate()) return;
 
-        Long orderId = myOrderService.order(paymentCompleted.getOrderId(), paymentCompleted.getMemberId(), paymentCompleted.getOrderDate(), paymentCompleted.getOrderItem());
-
+        Long orderId = myOrderService.order(myOrder);
     }
 
     @Transactional

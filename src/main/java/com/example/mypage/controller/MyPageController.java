@@ -109,7 +109,7 @@ public class MyPageController {
         private Long orderItemId;
         private Long itemId;
         private String itemName;
-        private String price;
+        private Long price;
         private Long qty;
 
         private Long reviewId;

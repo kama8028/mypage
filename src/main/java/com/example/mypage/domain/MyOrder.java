@@ -14,7 +14,6 @@ import java.util.List;
 public class MyOrder {
 
     @Id
-    @GeneratedValue
     private Long orderId;
     private Long memberId;
     private LocalDateTime orderDate;
@@ -25,5 +24,25 @@ public class MyOrder {
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus deliveryStatus;  //READY, SHIPPING, CANCEL, COMP
+
+    public void addOrderItem(OrderItem orderItem) {
+        this.orderItem.add(orderItem);
+        orderItem.setMyOrder(this);
+    }
+
+    public static MyOrder createMyOrder(Long orderId, Long memberId, OrderItem... orderItems) {
+        MyOrder myOrder = new MyOrder();
+        myOrder.setOrderId(orderId);
+        myOrder.setMemberId(orderId);
+        myOrder.setOrderDate(LocalDateTime.now());
+
+        for(OrderItem orderItem : orderItems) {
+            myOrder.addOrderItem(orderItem);
+        }
+
+        myOrder.setDeliveryStatus(DeliveryStatus.READY);
+        return myOrder;
+    }
+
 
 }
