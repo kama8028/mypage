@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -89,14 +91,17 @@ public class MyPageController {
     public class MyOrderDto {
 
         private Long orderId;
-        private LocalDateTime orderDate;
+        //private LocalDateTime orderDate;
+        private String orderDate;
         private String address;
         private List<OrderItemDto> orderItems;
         private String deliveryStatus;  //READY, SHIPPING, CANCEL, COMP
 
+
         public MyOrderDto(MyOrder myorder) {
             orderId = myorder.getOrderId();
-            orderDate = myorder.getOrderDate();
+            //orderDate = myorder.getOrderDate();
+            orderDate = myorder.getOrderDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             address = myorder.getAddress();
             orderItems = myorder.getOrderItem().stream().map(m -> new OrderItemDto(m)).collect(Collectors.toList());
             deliveryStatus = myorder.getDeliveryStatus().getValue();
@@ -129,13 +134,15 @@ public class MyPageController {
     public class MyDisposalDto {
 
         private Long disposalId;
-        private LocalDateTime disposalDate;
+        //private LocalDateTime disposalDate;
+        private String disposalDate;
         private String branchName;
         private List<DisposalItemDto> disposalItems = new ArrayList<>();
 
         public MyDisposalDto(MyDisposal myDisposal) {
             disposalId = myDisposal.getDisposalId();
-            disposalDate = myDisposal.getDisposalDate();
+            //disposalDate = myDisposal.getDisposalDate();
+            disposalDate = myDisposal.getDisposalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             branchName = myDisposal.getBranchName();
             disposalItems = myDisposal.getDisposalItem().stream().map(m -> new DisposalItemDto(m)).collect(Collectors.toList());
         }
