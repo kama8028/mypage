@@ -33,7 +33,7 @@ public class MyOrderRepository {
 
     public void delete(Long orderId) {
         MyOrder myOrder = em.find(MyOrder.class, orderId);
-        em.remove(orderId);
+        em.remove(myOrder);
     }
 
 }

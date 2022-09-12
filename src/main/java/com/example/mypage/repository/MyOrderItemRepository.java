@@ -18,8 +18,14 @@ public class MyOrderItemRepository {
         return em.createQuery("select distinct o from OrderItem o" +
                 " where o.orderItemId = :orderItemId", OrderItem.class).setParameter("orderItemId", orderItemId).getSingleResult();
     }
+
     public void reviewSave(OrderItem orderItem) {
         em.persist(orderItem);
+    }
+
+    public void delete(Long orderId) {
+        //OrderItem orderItem = em.find(OrderItem.class, orderId);
+        em.remove(orderId);
     }
 
 }

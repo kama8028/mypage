@@ -14,7 +14,6 @@ import java.util.List;
 public class MyDisposal {
 
     @Id
-    @GeneratedValue
     private Long disposalId;
 
     @OneToMany(mappedBy = "myDisposal", cascade = CascadeType.ALL)
@@ -23,5 +22,10 @@ public class MyDisposal {
     private Long memberId;
     private LocalDateTime disposalDate;
     private String BranchName;
+
+    public void addDisposalItem(DisposalItem disposalItem) {
+        this.disposalItem.add(disposalItem);
+        disposalItem.setMyDisposal(this);
+    }
 
 }

@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter @Setter
 public class DisposalItem {
 
-    @Id
+    @Id @GeneratedValue
     Long disposalItemId;
     Long recycleItemId;
     String recycleItemName;

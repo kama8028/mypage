@@ -1,9 +1,7 @@
 package com.example.mypage;
 
 import com.example.mypage.config.kafka.KafkaProcessor;
-import com.example.mypage.domain.DeliveryStatus;
-import com.example.mypage.domain.MyOrder;
-import com.example.mypage.domain.OrderItem;
+import com.example.mypage.domain.*;
 import com.example.mypage.service.MyDisposalService;
 import com.example.mypage.service.MyOrderItemService;
 import com.example.mypage.service.MyOrderService;
@@ -17,6 +15,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.mypage.domain.DeliveryStatus.SHIPPING;
 
 @Service
 @RequiredArgsConstructor
@@ -92,29 +92,57 @@ public class PolicyHandler {
     public void wheneverPaymentCanceled(@Payload PaymentCanceled paymentCanceled) {
 
         System.out.println(paymentCanceled);
-        System.out.println("paymentCompleted 진입");
+        System.out.println("PaymentCanceled 진입");
+        System.out.println(paymentCanceled.getEcoOrderId());
 
         if (!paymentCanceled.validate()) return;
 
-        Long orderId = myOrderService.cancel(paymentCanceled.getOrderId());
+        //Long orderId1 = myOrderItemService.cancel(paymentCanceled.getEcoOrderId());
+        Long orderId2 = myOrderService.cancel(paymentCanceled.getEcoOrderId());
 
     }
+
 
     @Transactional
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverDisposalCompleted(@Payload DisposalCompleted disposalCompleted) {
 
-        System.out.println(disposalCompleted);
+        System.out.println("로그"+disposalCompleted);
         System.out.println("disposalCompleted 진입");
+        System.out.println("DisposalId:"+disposalCompleted.getDisposalId());
+
+        List<DisposalItem> disposalItems = new ArrayList<>();
+
+        MyDisposal myDisposal = new MyDisposal();
+        myDisposal.setDisposalId(disposalCompleted.getDisposalId());
+        myDisposal.setMemberId(disposalCompleted.getMemberId());
+        myDisposal.setDisposalDate(disposalCompleted.getDisposalDate());
+        myDisposal.setBranchName(disposalCompleted.getBranchName());
+
+
+        for(DisposalItem disposalItem : disposalCompleted.getDisposalItem()) {
+            System.out.println("for문 진입");
+            System.out.println(disposalItem.getRecycleItemId());
+            System.out.println(disposalItem.getRecycleItemName());
+            System.out.println(disposalItem.getPoint());
+            System.out.println(disposalItem.getQty());
+
+            disposalItem.setRecycleItemId(disposalItem.getRecycleItemId());
+            disposalItem.setRecycleItemName(disposalItem.getRecycleItemName());
+            disposalItem.setPoint(disposalItem.getPoint());
+            disposalItem.setQty(disposalItem.getQty());
+
+            //orderItem.setMyOrder(myOrder);
+            //orderItems.add(orderItem);
+            myDisposal.addDisposalItem(disposalItem);
+
+        }
 
         if (!disposalCompleted.validate()) return;
 
-        Long disposalId = myDisposalService.disposal(disposalCompleted.getDisposalId(),
-                disposalCompleted.getMemberId(),
-                disposalCompleted.getDisposalDate(),
-                disposalCompleted.getBranchName(),
-                disposalCompleted.getDisposalItem());
+        Long orderId = myDisposalService.disposal(myDisposal);
     }
+
 
     @Transactional
     @StreamListener(KafkaProcessor.INPUT)
@@ -125,8 +153,24 @@ public class PolicyHandler {
 
         if (!deliveryCompleted.validate()) return;
 
-        MyOrder myOrder = myOrderService.findOne(deliveryCompleted.getOrderId());
+        MyOrder myOrder = myOrderService.findOne(deliveryCompleted.getEcoOrderId());
         myOrder.setDeliveryStatus(deliveryCompleted.getDeliveryStatus());
+
+        myOrderService.deliverySave(myOrder);
+    }
+
+    @Transactional
+    @StreamListener(KafkaProcessor.INPUT)
+    public void wheneverDeliveryStarted(@Payload DeliveryStarted deliveryStarted) {
+
+        System.out.println(deliveryStarted);
+        System.out.println("deliveryStarted 진입");
+        System.out.println(SHIPPING);
+
+        if (!deliveryStarted.validate()) return;
+
+        MyOrder myOrder = myOrderService.findOne(deliveryStarted.getEcoOrderId());
+        myOrder.setDeliveryStatus(DeliveryStatus.SHIPPING);
 
         myOrderService.deliverySave(myOrder);
     }

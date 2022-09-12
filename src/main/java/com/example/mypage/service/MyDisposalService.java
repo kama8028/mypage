@@ -23,17 +23,9 @@ public class MyDisposalService {
         return myDisposalRepository.findAll(memberId);
     }
 
-    public Long disposal(Long disposalId, Long memberId, LocalDateTime disposalDate, String branchName, List<DisposalItem> disposalItem) {
-        MyDisposal myDisposal = new MyDisposal();
-
-        myDisposal.setDisposalId(disposalId);
-        myDisposal.setMemberId(memberId);
-        myDisposal.setDisposalDate(disposalDate);
-        myDisposal.setBranchName(branchName);
-        myDisposal.setDisposalItem(disposalItem);
+    public Long disposal(MyDisposal myDisposal) {
 
         myDisposalRepository.save(myDisposal);
-
         return myDisposal.getDisposalId();
     }
 

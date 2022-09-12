@@ -19,7 +19,7 @@ public class MyDisposalRepository{
     public List<MyDisposal> findAll(Long memberId) {
         return em.createQuery("select distinct m from MyDisposal m" +
                                  " join fetch m.disposalItem d" +
-                                 " where m.memberId = :memberId", MyDisposal.class).setParameter("memberId", memberId).getResultList();
+                                 " where m.memberId = :memberId order by m.disposalDate desc", MyDisposal.class).setParameter("memberId", memberId).getResultList();
     }
 
     public void save(MyDisposal myDisposal) {

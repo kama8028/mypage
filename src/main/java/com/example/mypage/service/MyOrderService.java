@@ -2,6 +2,7 @@ package com.example.mypage.service;
 
 import com.example.mypage.domain.*;
 import com.example.mypage.repository.MyAddressRepository;
+import com.example.mypage.repository.MyOrderItemRepository;
 import com.example.mypage.repository.MyOrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.List;
 public class MyOrderService {
 
     private final MyOrderRepository myOrderRepository;
+    private final MyOrderItemRepository myOrderItemRepository;
 
     public Long order (MyOrder myOrder) {
         //MyOrder myOrder = new MyOrder();

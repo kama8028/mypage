@@ -6,9 +6,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DeliveryCompleted extends AbstractEvent{
-
+public class DeliveryStarted extends AbstractEvent{
     private Long ecoOrderId;
-    private DeliveryStatus deliveryStatus;
-
 }

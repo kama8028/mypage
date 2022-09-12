@@ -29,5 +29,12 @@ public class MyOrderItemService {
         return orderItem.getOrderItemId();
     }
 
+    public Long cancel (Long orderId) {
+
+        myOrderItemRepository.delete(orderId);
+
+        return orderId;
+    }
+
 
 }

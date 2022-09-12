@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class PaymentCanceled extends AbstractEvent {
 
-    private Long orderId;
+    private Long ecoOrderId;
 
 }
