@@ -79,12 +79,17 @@ INSERT INTO disposal_item VALUES('5','2000','10','0','2','유리병','3');
 COMMIT;
 
 o 카프카 오더 테스트 자료
-주문완료 : {"eventType":"PaymentCompleted","timestamp":1656637224646,"id":5,"addressId":1,"memberId":1,"ecoOrderId":7,"ecoOrderDate":"2022-07-17T00:00:00","totalPrice":10000, "paymentMethod":"Cash", "orderItem":[{"ecoProductId":1, "ecoProductName":"BACHU1", "ecoProductUnitPrice":500, "ecoProductQty":3}, {"ecoProductId":2, "ecoProductName":"BACHU2", "ecoProductUnitPrice":1000, "ecoProductQty":1}]}
+주문완료 : {"eventType":"PaymentCompleted","timestamp":1656637224646,"id":5,"addressId":1,"memberId":1,"ecoOrderId":10,"ecoOrderDate":"2022-07-17T00:00:00","totalPrice":10000, "paymentMethod":"Cash", "orderItem":[{"ecoProductId":1, "ecoProductName":"BACHU1", "ecoProductUnitPrice":500, "ecoProductQty":3}, {"ecoProductId":2, "ecoProductName":"BACHU2", "ecoProductUnitPrice":1000, "ecoProductQty":1}]}
 주문취소 : {"eventType":"PaymentCanceled","timestamp":1656637224648,"ecoOrderId":7,"memberId":1}
 배송시작 : {"eventType":"DeliveryStarted","timestamp":3656637224649,"deliveryId":5,"ecoOrderId":7}
 배송완료 : {"eventType":"DeliveryCompleted","timestamp":3656637224646,"deliveryId":5,"memberId":1,"deliveryStatus":"COMP","deliveryStartDt":"2022-06-17","deliveryEndDt":"2022-06-17","ecoOrderId":7}
 배출완료 : {"eventType":"DisposalCompleted","timestamp":1656637224670,"disposalId":7,"memberId":1,"disposalDate":"2022-08-17T00:00:00","branchName":"Pangyo","disposalItem":[{"recycleItemId":1, "recycleItemName":"Plastic", "point":500, "qty":2}, {"recycleItemId":2, "recycleItemName":"Can", "point":1000, "qty":2}]}
 
+o 카프가 서버에서 테스트
+kubectl exec -it my-kafka-0 -n kafka -- bin/bash
+cd /opt/bitnami/kafka/bin
+kafka-console-producer.sh --bootstrap-server my-kafka.kafka.svc.cluster.local:9092 --topic ecomarket
+kafka-console-consumer.sh --bootstrap-server my-kafka.kafka.svc.cluster.local:9092 --topic ecomarket --from-beginning
 
 /****************** 테스트 관련 명령어 **********************/
 ** 등록

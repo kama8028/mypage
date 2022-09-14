@@ -37,23 +37,13 @@ public class PolicyHandler {
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverPaymentCompleted(@Payload PaymentCompleted paymentCompleted) {
 
-        System.out.println("로그"+paymentCompleted);
+        System.out.println(paymentCompleted);
         System.out.println("paymentCompleted 진입");
-        System.out.println("에코오더id:"+paymentCompleted.getEcoOrderId());
-        System.out.println("에코오더아이템:"+paymentCompleted.getOrderItem());
 
-        //OrderItem orderItem = paymentCompleted.getOrderItem();
+        if (!paymentCompleted.validate()) return;
 
         List<OrderItem> orderItems = new ArrayList<>();
-        //EcoOrderItem ecoOrderItems;
 
-        //for(EcoOrderItem ecoOrderItem : ecoOrderItems ) {
-        //  orderItems.
-        //}
-
-//        List<OrderItem> orderItems = paymentCompleted.getOrderItem().stream()
-//                .map(o -> new OrderItem(o))
-//                .collect(Collectors.toList());
         MyOrder myOrder = new MyOrder();
         myOrder.setOrderId(paymentCompleted.getEcoOrderId());
         myOrder.setMemberId(paymentCompleted.getMemberId());
@@ -61,7 +51,6 @@ public class PolicyHandler {
         myOrder.setOrderDate(paymentCompleted.getEcoOrderDate());
         myOrder.setAddress("없음");
         myOrder.setDeliveryStatus(DeliveryStatus.READY);
-
 
         for(OrderItem orderItem : paymentCompleted.getOrderItem()) {
             System.out.println("for문 진입");
@@ -82,8 +71,6 @@ public class PolicyHandler {
 
         System.out.println(orderItems);
 
-        if (!paymentCompleted.validate()) return;
-
         Long orderId = myOrderService.order(myOrder);
     }
 
@@ -93,11 +80,9 @@ public class PolicyHandler {
 
         System.out.println(paymentCanceled);
         System.out.println("PaymentCanceled 진입");
-        System.out.println(paymentCanceled.getEcoOrderId());
 
         if (!paymentCanceled.validate()) return;
 
-        //Long orderId1 = myOrderItemService.cancel(paymentCanceled.getEcoOrderId());
         Long orderId2 = myOrderService.cancel(paymentCanceled.getEcoOrderId());
 
     }
@@ -107,9 +92,10 @@ public class PolicyHandler {
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverDisposalCompleted(@Payload DisposalCompleted disposalCompleted) {
 
-        System.out.println("로그"+disposalCompleted);
+        System.out.println(disposalCompleted);
         System.out.println("disposalCompleted 진입");
-        System.out.println("DisposalId:"+disposalCompleted.getDisposalId());
+
+        if (!disposalCompleted.validate()) return;
 
         List<DisposalItem> disposalItems = new ArrayList<>();
 
@@ -138,8 +124,6 @@ public class PolicyHandler {
 
         }
 
-        if (!disposalCompleted.validate()) return;
-
         Long orderId = myDisposalService.disposal(myDisposal);
     }
 
@@ -165,7 +149,6 @@ public class PolicyHandler {
 
         System.out.println(deliveryStarted);
         System.out.println("deliveryStarted 진입");
-        System.out.println(SHIPPING);
 
         if (!deliveryStarted.validate()) return;
 
