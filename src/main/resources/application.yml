@@ -40,8 +40,8 @@ spring:
     stream:
       kafka:
         binder:
-          #brokers: localhost:9099
-          brokers: my-kafka.kafka.svc.cluster.local:9092
+          brokers: localhost:9099
+          #brokers: my-kafka.kafka.svc.cluster.local:9092
         streams:
           binder:
             configuration:
