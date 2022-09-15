@@ -36,17 +36,19 @@ public class MyPageController {
     public MyPageAll findInfo(@PathVariable("id") Long id) {
         System.out.println("MyInfo 인입");
 
-        MyInfo myInfo = myInfoService.findOne(id);
-        MyEcoPoint myEcoPoint = myEcoPointService.findOne(id);
-        List<MyAddress> myAddressList = myAddressService.findAll(id);
+        //MyInfo myInfo = myInfoService.findOne(id);
+        //MyEcoPoint myEcoPoint = myEcoPointService.findOne(id);
+        //List<MyAddress> myAddressList = myAddressService.findAll(id);
         List<MyOrder> myOrderList = myOrderService.findAll(id);
         List<MyDisposal> myDisposalList = myDisposalService.findAll(id);
 
-        for(MyOrder order : myOrderList) {
-            System.out.println("DEBUG : " + order.getAddress());
-        }
+        //for(MyOrder order : myOrderList) {
+        //    System.out.println("DEBUG : " + order.getAddress());
+        //}
 
-        myPageAll = new MyPageAll(myInfo, myEcoPoint, myAddressList, myOrderList, myDisposalList);
+        //myPageAll = new MyPageAll(myInfo, myEcoPoint, myAddressList, myOrderList, myDisposalList);
+
+        myPageAll = new MyPageAll(myOrderList, myDisposalList);
 
         return myPageAll;
     }
@@ -66,22 +68,23 @@ public class MyPageController {
     @Getter
     public class MyPageAll {
 
-        private Long memberId;
-        private String name;
-        private String email;
-        private String phone;
-        private Long ecoPoint;
-        private List<MyAddress> myAddressList;
+//        private Long memberId;
+//        private String name;
+//        private String email;
+//        private String phone;
+//        private Long ecoPoint;
+//        private List<MyAddress> myAddressList;
         private List<MyOrderDto> myOrderDto;
         private List<MyDisposalDto> myDisposalDto;
 
-        public MyPageAll(MyInfo myInfo, MyEcoPoint myEcoPoint, List<MyAddress> myAddressList, List<MyOrder> myOrderList, List<MyDisposal> myDisposalList) {
-            memberId = myInfo.getMemberId();
-            name = myInfo.getName();
-            email = myInfo.getEmail();
-            phone = myInfo.getPhone();
-            ecoPoint  = myEcoPoint.getEcoPoint();
-            this.myAddressList = myAddressList;
+        public MyPageAll(List<MyOrder> myOrderList, List<MyDisposal> myDisposalList) {
+//        public MyPageAll(MyInfo myInfo, MyEcoPoint myEcoPoint, List<MyAddress> myAddressList, List<MyOrder> myOrderList, List<MyDisposal> myDisposalList) {
+//            memberId = myInfo.getMemberId();
+//            name = myInfo.getName();
+//            email = myInfo.getEmail();
+//            phone = myInfo.getPhone();
+//            ecoPoint  = myEcoPoint.getEcoPoint();
+//            this.myAddressList = myAddressList;
             myOrderDto = myOrderList.stream().map(m -> new MyOrderDto(m)).collect(Collectors.toList());
             myDisposalDto = myDisposalList.stream().map(m -> new MyDisposalDto(m)).collect(Collectors.toList());
         }
